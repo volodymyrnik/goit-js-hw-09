@@ -1,41 +1,49 @@
 const feedbackForm = document.querySelector('.feedback-form');
 
-checkInputStart();
+let formData = {
+  email: '',
+  message: '',
+};
 
-feedbackForm.addEventListener('input', fieldUserInfo);
-feedbackForm.addEventListener('submit', sendUserInfo);
+const onFormFieldChange = event => {
+  const formFieldEl = event.target;
+  const fieldValue = formFieldEl.value;
+  const fieldName = formFieldEl.name;
 
-function fieldUserInfo() {
-    const formData = {
-        email: (feedbackForm.elements.email.value).trim(),
-        message: (feedbackForm.elements.message.value).trim(),
+  formData[fieldName] = fieldValue;
+
+  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+};
+
+feedbackForm.addEventListener('input', onFormFieldChange);
+
+const fillFormFields = () => {
+  try {
+    const formFromLs = JSON.parse(localStorage.getItem('feedback-form-state'));
+
+    if (formFromLs === null) {
+      return;
     }
 
-    localStorage.setItem('feedback-form-state', JSON.stringify(formData));
-}
-
-function sendUserInfo(event) {
-    event.preventDefault();
-
-    const email = (feedbackForm.elements.email.value).trim();
-    const message = (feedbackForm.elements.message.value).trim();
-
-
-    if (!email || !message) {
-        alert('Please, fill in all fields before sending!');
-        return;
+    for (const key in formFromLs) {
+      feedbackForm.elements[key].value = formFromLs[key];
     }
+    formData = formFromLs;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-    const userInfo = { email: email, message: message };
-    console.log(userInfo);
+fillFormFields();
 
-    feedbackForm.reset();
-    localStorage.clear();
-}
-
-function checkInputStart() {
-    const localInfo = JSON.parse(localStorage.getItem("feedback-form-state")) ?? {};
-
-    feedbackForm.elements.email.value = localInfo.email || '';
-    feedbackForm.elements.message.value = localInfo.message || '';
-}
+feedbackForm.addEventListener('submit', event => {
+  event.preventDefault();
+  if (formData.email.trim() === '' || formData.message.trim() === '') {
+    alert('Fill please all fields');
+    return;
+  }
+  console.log(formData);
+  formData = { email: '', message: '' };
+  feedbackForm.reset();
+  localStorage.removeItem('feedback-form-state');
+});

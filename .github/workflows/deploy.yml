@@ -9,24 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2.3.1
 
       - name: Install and build 🔧
         run: |
           npm install
           npm run build
 
-      - name: Check build output
-        run: ls -la dist
-
-      - name: Disable Jekyll
-        run: touch dist/.nojekyll
-
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: dist
-          clean: true
-          force: true

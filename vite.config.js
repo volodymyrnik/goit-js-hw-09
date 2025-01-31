@@ -6,6 +6,7 @@ import SortCss from 'postcss-sort-media-queries';
 
 export default defineConfig(({ command }) => {
   return {
+    base: "/goit-js-hw-09/", // Оновлено на правильне ім'я репозиторію
     define: {
       [command === 'serve' ? 'global' : '_global']: {},
     },
@@ -34,7 +35,7 @@ export default defineConfig(({ command }) => {
           },
         },
       },
-      outDir: '../dist',
+      outDir: 'dist', // Виправлено шлях до вихідної папки
       emptyOutDir: true,
     },
     plugins: [

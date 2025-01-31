@@ -1,18 +1,28 @@
-@keyframes slide {
-  from {
-    transform: translateX(-140%) translateY(-50%);
-  }
-  to {
-    transform: translateX(-104%) translateY(-50%);
-  }
+.container {
+  max-width: 1128px;
+  padding: 0 15px;
+
+  margin-left: auto;
+  margin-right: auto;
 }
-@keyframes stretch {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(100%) scale(0.2);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(100%) scale(1);
-  }
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+}
+
+.gallery-item {
+  flex-basis: calc((100% - 48px) / 3);
+  transition: transform .3s;
+}
+
+.gallery-item:hover,
+.gallery-item:focus {
+  transform: scale(1.05);
+}
+
+.gallery-link:hover {
+  cursor: zoom-in;
 }
